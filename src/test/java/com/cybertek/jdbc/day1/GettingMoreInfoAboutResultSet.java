@@ -57,6 +57,5 @@ public class GettingMoreInfoAboutResultSet {
         stmnt.close();
         conn.close();
 
-
     }
 }
