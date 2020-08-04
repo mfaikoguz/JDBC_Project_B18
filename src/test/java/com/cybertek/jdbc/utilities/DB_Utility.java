@@ -1,11 +1,131 @@
 package com.cybertek.jdbc.utilities;
 
 import java.sql.*;
+import java.util.*;
 
 public class DB_Utility {
     // adding static field so we can access in all static methods
     private static Connection conn;
     private static ResultSet rs;
+
+
+    /*
+     * Getting single column cell value at certain row
+     * row 2 column 3  -->> the data
+     * */
+
+    /**
+     * Getting single column cell value at certain row
+     *
+     * @param rowNum      row number we want to get data from
+     * @param columnIndex column index we want to get the data from
+     * @return the data in String
+     */
+    public static String getColumnDataAtRow(int rowNum, int columnIndex) {
+        // improve this method and check for valid rowNum and columnIndex
+        // if invalid return an empty string
+
+        String result = "";
+        try {
+            rs.absolute(rowNum);
+            result = rs.getString(columnIndex);
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getColumnDataAtRow");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String getColumnDataAtRow(int rowNum, String columnName) {
+        // improve this method and check for valid rowNum and columnIndex
+        // if invalid return an empty string
+
+        String result = "";
+        try {
+            rs.absolute(rowNum);
+            result = rs.getString(columnName);
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getColumnDataAtRow");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //
+
+    /**
+     * getting the entire row as List<String>
+     *
+     * @param rowNum the row number we want the list from
+     * @return List of String that contains the row data
+     */
+    public static List<String> getRowDataAsList(int rowNum) {
+        List<String> rowDataList = new ArrayList<>();
+        // how to move to that Row with rowNum
+        try {
+            rs.absolute(rowNum);
+            // iterate over each and every column and add the value to the list
+            for (int i = 1; i <= getColumnCNT(); i++) {
+                rowDataList.add(rs.getString(i));
+            }
+            // moving the cursor back to before first location just in case
+            rs.beforeFirst();
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getRowDataAsList");
+            e.printStackTrace();
+        }
+
+
+        return rowDataList;
+    }
+
+    public static int getRowCount(){
+        int rowCount = 0;
+        try {
+            rs.last();
+            rowCount = rs.getRow();
+            // moving back the cursor to before first location just in case
+            rs.beforeFirst();
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getRowCount");
+            e.printStackTrace();
+        }
+
+        return rowCount;
+    }
+
+
+    /*
+     * a method to display all the data in the result set
+     *
+     * */
+    public static void displayAllData() {
+
+        // get the first row data  | without knowing the column names
+        int colCount = DB_Utility.getColumnCNT();
+        // in order to get whole result cursor must be at before first location !
+
+        try {
+            // in order to start from beginning , we should be at beforefirst location
+            rs.beforeFirst(); // this is for below loop to work
+            while (rs.next() == true) { // row iteration
+
+                for (int i = 1; i <= colCount; i++) { // column iteration
+                    System.out.print(rs.getString(i) + "\t");
+                }
+                System.out.println(); /// adding a blank line for next line
+            }
+            // now the cursor is at after last location
+            // move it back to before first location so we can have no issue calling the method again
+            rs.beforeFirst(); // this is for next method that might need to be at before first location
+
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE GETTING ALL DATA");
+            e.printStackTrace();
+        }
+
+    }
+
 
     /*
      * a method to get the column count of the current ResultSet
@@ -21,9 +141,9 @@ public class DB_Utility {
             ResultSetMetaData rsmd = rs.getMetaData();
             colCount = rsmd.getColumnCount();
 
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.out.println("ERROR WHILE COUNTING THE COLUMNS");
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
 
         return colCount;
@@ -43,9 +163,9 @@ public class DB_Utility {
         try {
             conn = DriverManager.getConnection(connectionStr, username, password);
             System.out.println("CONNECTION SUCCESSFUL");
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             System.out.println("CONNECTION HAS FAILED!");
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -57,11 +177,12 @@ public class DB_Utility {
     public static ResultSet runQuery(String query) {
 
         try {
-            Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
             rs = stmnt.executeQuery(query);
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return rs;
