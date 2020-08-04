@@ -24,5 +24,10 @@ public class DB_Practice {
 
         // what if we want to print out everything in the resultset
         // without knowing the column names
+        int colCount = DB_Utility.getColumnCNT();
+        rs.first();
+        for (int i = 1; i <= colCount; i++) {
+            System.out.print(rs.getString(i) + "\t");
+        }
     }
 }
