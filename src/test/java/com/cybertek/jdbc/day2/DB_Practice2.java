@@ -20,9 +20,21 @@ public class DB_Practice2 {
         //DB_Utility.runQuery("SELECT * FROM EMPLOYEES WHERE SALARY>19000  ");
         DB_Utility.displayAllData();
 
-        System.out.println("DB_Utility.getColumnDataAtRow(3, 2) = " + DB_Utility.getColumnDataAtRow(3, 2));
-        System.out.println("DB_Utility.getColumnDataAtRow(3, \"REGION_NAME\") = " + DB_Utility.getColumnDataAtRow(3, "REGION_NAME"));
-        System.out.println("DB_Utility.getRowDataAsList(3) = " + DB_Utility.getRowDataAsList(3));
+        System.out.println("DB_Utility.getColumnDataAtRow(3, 2) = "
+                + DB_Utility.getColumnDataAtRow(3, 2));
+
+        System.out.println("DB_Utility.getColumnDataAtRow(3, \"REGION_NAME\") = "
+                + DB_Utility.getColumnDataAtRow(3, "REGION_NAME"));
+
+        System.out.println("DB_Utility.getRowDataAsList(3) = "
+                + DB_Utility.getRowDataAsList(3));
+
         System.out.println("DB_Utility.getRowCount() = " + DB_Utility.getRowCount());
+
+        System.out.println("DB_Utility.getColumnDataAsList(2) = "
+                + DB_Utility.getColumnDataAsList(2));
+
+        System.out.println("DB_Utility.getColumnDataAsList(\"REGION_NAME\") = "
+                + DB_Utility.getColumnDataAsList("REGION_NAME"));
     }
 }

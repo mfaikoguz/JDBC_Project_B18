@@ -8,6 +8,58 @@ public class DB_Utility {
     private static Connection conn;
     private static ResultSet rs;
 
+    /**
+     * We want to store certain row data as a map
+     * give me number 3 row --->> Map<String,String>  {region_id : 3 , region_name : Asia}
+     */
+
+
+
+
+    /**
+     * @param columnIndex the column you want to get a list out of
+     * @return List of String that contains entire column data from 1st row to last row
+     */
+
+    public static List<String> getColumnDataAsList(int columnIndex) {
+        List<String> columnDataList = new ArrayList<>();
+        try {
+            rs.beforeFirst(); // moving the cursor to the before first location
+            while (rs.next()) {
+                // getting the data from that column and adding to the list
+                columnDataList.add(rs.getString(columnIndex));
+            }
+            rs.beforeFirst(); // moving the cursor to the before first location after we are done
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getColumnDataAsList");
+            e.printStackTrace();
+        }
+
+        return columnDataList;
+    }
+
+    /**
+     * @param columnName the column name you want to get a list out of
+     * @return List of String that contains entire column data from 1st row to last row
+     */
+
+    public static List<String> getColumnDataAsList(String columnName) {
+        List<String> columnDataList = new ArrayList<>();
+        try {
+            rs.beforeFirst(); // moving the cursor to the before first location
+            while (rs.next()) {
+                // getting the data from that column and adding to the list
+                columnDataList.add(rs.getString(columnName));
+            }
+            rs.beforeFirst(); // moving the cursor to the before first location after we are done
+        } catch (SQLException e) {
+            System.out.println("ERROR WHILE getColumnDataAsList");
+            e.printStackTrace();
+        }
+
+        return columnDataList;
+    }
+
 
     /*
      * Getting single column cell value at certain row
@@ -79,7 +131,7 @@ public class DB_Utility {
         return rowDataList;
     }
 
-    public static int getRowCount(){
+    public static int getRowCount() {
         int rowCount = 0;
         try {
             rs.last();
