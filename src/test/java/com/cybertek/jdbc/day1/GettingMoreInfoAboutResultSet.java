@@ -35,8 +35,8 @@ public class GettingMoreInfoAboutResultSet {
 
         for (int i = 1; i <= columnCount; i++) {
 //            System.out.println(rsmd.getColumnName(i) ) ;
-            //System.out.println("Number " + i + " Column name is : " + rsmd.getColumnName(i) ) ;
-            System.out.print(rsmd.getColumnName(i) + "\t");
+            System.out.println("Number " + i + " Column name is : " + rsmd.getColumnName(i) ) ;
+            //System.out.print(rsmd.getColumnName(i) + "\t");
         }
 
         System.out.println("---- storeing it into the list and printing it out");
