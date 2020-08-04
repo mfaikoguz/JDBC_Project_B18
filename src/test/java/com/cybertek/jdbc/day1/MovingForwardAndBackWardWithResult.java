@@ -30,7 +30,7 @@ public class MovingForwardAndBackWardWithResult {
         rs.previous();
         System.out.println(rs.getString("COUNTRY_ID") + " " + rs.getString("COUNTRY_NAME"));
         // MOVING THE CURSOR FREELY between rows
-//        rs.previous();  we are at first row , this will move us to beforefirst location
+//        rs.previous();  we are at fgit push origin master:origin/masterirst row , this will move us to beforefirst location
 //        System.out.println(rs.getString("COUNTRY_ID") + " " + rs.getString("COUNTRY_NAME"));
 
         //  moving to the last row directly
