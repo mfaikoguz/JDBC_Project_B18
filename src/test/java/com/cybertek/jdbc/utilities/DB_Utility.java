@@ -16,9 +16,9 @@ public class DB_Utility {
      * */
     public static void createConnection() {
 
-        String connectionStr = "jdbc:oracle:thin:@3.89.146.60:1521:XE";
-        String username = "hr";
-        String password = "hr";
+        String connectionStr = ConfigurationReader.getProperty("database.url");
+        String username = ConfigurationReader.getProperty("database.username");
+        String password = ConfigurationReader.getProperty("database.password");
 
         try {
             conn = DriverManager.getConnection(connectionStr, username, password);
@@ -27,8 +27,25 @@ public class DB_Utility {
             System.out.println("CONNECTION HAS FAILED!");
             e.printStackTrace();
         }
+//         createConnection(connectionStr,username,password);
 
     }
+
+    public static void createConnection(String env) {
+        // add validation to avoid invalid input
+        // because we currently only have 2 env : test , dev
+        // or add some condition for invalid env
+        //  to directly get the information as database.url , database.username, database.password
+        // without any env
+        System.out.println("You are in " + env + " environment");
+        String connectionStr = ConfigurationReader.getProperty(env + ".database.url");
+        String username = ConfigurationReader.getProperty(env + ".database.username");
+        String password = ConfigurationReader.getProperty(env + ".database.password");
+
+        createConnection(connectionStr, username, password);
+
+    }
+
 
     /**
      * Overload createConnection method to accept url, username, password
@@ -41,9 +58,8 @@ public class DB_Utility {
     public static void createConnection(String url, String username, String password) {
 
         try {
-
             conn = DriverManager.getConnection(url, username, password);
-
+            System.out.println("CONNECTION SUCCESSFUL");
         } catch (SQLException e) {
             System.out.println("ERROR WHILE CONNECTING WITH PARAMETERS");
         }
@@ -354,5 +370,4 @@ public class DB_Utility {
         }
 
     }
-
 }
